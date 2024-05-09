@@ -5,8 +5,15 @@ import csv
  #esse def dos componentes a gente vai usar pra armazenar os dados de país nome da receita e etc
 
 class receita:
-    def __init__(self, nome, pais, ingredientes, preparo):
-        self.nome = nome 
-        self.pais = pais 
-        self.ingredientes = ingredientes 
-        self.preparo = preparo
+    def __init__(self, nome, pais, ingredientes, preparo, favorito): 
+        pass
+        self.nome = nome
+        self.pais = pais
+        self.ingredientes = ingredientes
+        self.preapro = preparo
+        self.favorito = favorito
+
+
+
+
+
