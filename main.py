@@ -14,7 +14,7 @@ class Receita:
         self.favorito = favorito
 
     def banco_dados():
-        with open('receitas.csv', 'r', encoding='utf8') as filecsv:
+        with open('receitas.csv', 'r', newline='', encoding='utf8') as filecsv:
             dados=[]
             for i in filecsv:
                 nome, pais, ingredientes, preparo, favorito = i
@@ -25,14 +25,14 @@ class Receita:
 
     #def p/ adicionar receita no banco de dados == csv
     def add():
-        with open('receitas.csv','w', encoding='utf8') as filecsv:
+        with open('receitas.csv','w',newline='', encoding='utf8') as filecsv:
 
             nome = input('Nome de receita:')
             pais = input('país de origem da receita: ')
             ingredientes = input("Ingredientes: ").split(", ")
             modo_preparo = input("Modo de preparo: ")
 
-            filecsv.writelines(nome, pais, ingredientes, modo_preparo)
+            filecsv.write(nome, pais, ingredientes, modo_preparo)
 
         
         
