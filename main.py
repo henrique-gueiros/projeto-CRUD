@@ -14,14 +14,20 @@ class Receita:
         self.favorito = favorito
 
     def banco_dados():
-        with open('receitas.csv', 'r', newline='', encoding='utf8') as filecsv:
-            dados=[]
-            for i in filecsv:
-                nome, pais, ingredientes, preparo, favorito = i
-                ingredientes = ingredientes.split(', ') #separei os ingredientes por vírgula pra ficar mais fácil
-                receita = Receita(nome, pais, ingredientes, preparo, favorito)
-                dados.append(receita)
-        return dados
+        try:
+            with open('receitas.csv', 'r', newline='', encoding='utf8') as filecsv:
+                leitor_csv = csv.reader(filecsv)
+                next(leitor_csv)
+                dados=[]
+                for i in filecsv:
+                    nome, pais, ingredientes, preparo, favorito = i
+                    ingredientes = ingredientes.split(', ') #separei os ingredientes por vírgula pra ficar mais fácil
+                    favorito = favorito == "True"
+                    receita = Receita(nome, pais, ingredientes, preparo, favorito)
+                    dados.append(receita)
+            return dados
+        except FileNotFoundError:
+            return dados
 
     #def p/ adicionar receita no banco de dados == csv
     def add():
