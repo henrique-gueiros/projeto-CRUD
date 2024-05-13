@@ -35,7 +35,7 @@ class Receita:
             filecsv.write(nome, pais, ingredientes, modo_preparo)
         
         
-aaa    
+
 
 
 
