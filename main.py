@@ -27,12 +27,14 @@ class Receita:
     def add():
         with open('receitas.csv','w',newline='', encoding='utf8') as filecsv:
 
+            escritorcsv = csv.writer(filecsv)
+
             nome = input('Nome de receita:')
             pais = input('país de origem da receita: ')
-            ingredientes = input("Ingredientes: ").split(", ")
+            ingredientes = input("Ingredientes: ")
             modo_preparo = input("Modo de preparo: ")
 
-            filecsv.write(nome, pais, ingredientes, modo_preparo)
+            escritorcsv.writerow([nome, pais, ingredientes, modo_preparo])
         
         
 
