@@ -93,9 +93,36 @@ class Receita:
         except FileNotFoundError:
             print('O arquivo que você deseja vizualizar não foi encontrado!')
 
+    def favoritar():
+        try:
+            with open('receitas.csv', 'r', newline='', encoding='utf8') as filecsv:
+
+                leitor = csv.reader(filecsv)
+
+                for p,v in enumerate (leitor):
+                    print(f'{p}. {v}')
+                return
                 
-            
-            
+        except FileNotFoundError:
+            print('O arquivo que você deseja favoritar não foi encontrado!')
+
+        while True:    
+            try:
+                    with open('receitas.csv', 'a', newline='', encoding='utf8'):
+                        favoritar = int(input('Digite a receita que você deseja favoritar: '))
+
+                        for i in leitor:
+                            if i == favoritar:
+                                #adc em um vetor ou arquivo csv/txt? provavelmente precisa ser um write/writerow
+                                novo = input('Deseja adicionar outra receita as favoritas? [S]-Sim//[N]-Não:')
+                                if novo == 'N':
+                                    print('Receitas adicionadas!')
+                                    break
+                                 
+            except FileNotFoundError:
+                print('Receita não encontrada, digite novamente!')
+            except IndexError:
+                print('Receita não encontrada, digite novamente!')
     
     def main():
         dados = Receita.banco_dados()
