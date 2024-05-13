@@ -31,16 +31,58 @@ class Receita:
 
     #def p/ adicionar receita no banco de dados == csv
     def add():
-        with open('receitas.csv','w',newline='', encoding='utf8') as filecsv:
+        with open('receitas.csv','a',newline='', encoding='utf8') as filecsv:
+            while True:
+                try:
 
-            escritorcsv = csv.writer(filecsv)
+                    escritorcsv = csv.writer(filecsv)
 
-            nome = input('Nome de receita:')
-            pais = input('país de origem da receita: ')
-            ingredientes = input("Ingredientes: ")
-            modo_preparo = input("Modo de preparo: ")
+                    nome = input('Nome de receita:')
+                    pais = input('país de origem da receita: ')
+                    ingredientes = input("Ingredientes: ")
+                    modo_preparo = input("Modo de preparo: ")
 
-            escritorcsv.writerow([nome, pais, ingredientes, modo_preparo])
+                    escritorcsv.writerow([nome, pais, ingredientes, modo_preparo])
+                    break
+                except ValueError:
+                    print('Erro ao adicionar receita')
+                    
+    
+    def salvar_receita(receitas):
+        with open('receitas.csv','w',newline='') as filecsv:
+            escritorcsv = csv.DictWriter(filecsv,fieldnames=['nome','pais','ingredientes','modo_preparo'])
+            escritorcsv.writeheader()
+            escritorcsv.writerows(receitas)
+    
+    
+    def excluir():
+            
+            receitas = Receita.banco_dados()
+            
+            if not receitas:
+                print('Não há receitas cadastradas')
+                return
+            for i,receitas in enumerate(receitas,start=1):
+                print(f'{i}. {receitas[0]}')
+            
+            try:
+                excluir = int(input('Digite o número da receita que deseja excluir: '))
+                if excluir > len(receitas):
+                    print('Receita não encontrada')
+                    return
+
+                if 0 < excluir < len(receitas):
+                    receitas_excluidas = receitas.pop(excluir)
+                    print('Receita excluida')
+                    Receita.banco_dados()
+            
+            except ValueError:
+                print('Erro ao excluir receita')
+                return
+
+                
+            
+            
     
     def main():
         dados = Receita.banco_dados()
@@ -50,7 +92,7 @@ class Receita:
             print('\n==MENU==')
             print('1. Adicionar receitas ')
             print('2. Visualizar receitas ')
-            print('3. ')
+            print('3. Excluir receitas ')
             print('4. ')
             print('5. ')
             print('6. ')
@@ -64,7 +106,7 @@ class Receita:
             if opcao == 2:
                 Receita.banco_dados() 
             if opcao == 3:
-            
+                Receita.excluir()
             if opcao == 4:
             
             if opcao == 5:
