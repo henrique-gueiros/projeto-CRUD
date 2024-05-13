@@ -33,7 +33,6 @@ class Receita:
             modo_preparo = input("Modo de preparo: ")
 
             filecsv.write(nome, pais, ingredientes, modo_preparo)
-
         
         
     
