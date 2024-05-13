@@ -80,6 +80,19 @@ class Receita:
                 print('Erro ao excluir receita')
                 return
 
+    def vizualizar():
+        try:
+            with open('receitas.csv', 'r', newline='', encoding='utf8') as filecsv:
+
+                leitor = csv.reader(filecsv)
+
+                for p,v in enumerate (leitor):
+                    print(f'{p}. {v}')
+                return
+            
+        except FileNotFoundError:
+            print('O arquivo que você deseja vizualizar não foi encontrado!')
+
                 
             
             
@@ -108,7 +121,7 @@ class Receita:
             if opcao == 3:
                 Receita.excluir()
             if opcao == 4:
-            
+                Receita.vizualizar()
             if opcao == 5:
             
             if opcao == 6:
