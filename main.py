@@ -41,6 +41,43 @@ class Receita:
             modo_preparo = input("Modo de preparo: ")
 
             escritorcsv.writerow([nome, pais, ingredientes, modo_preparo])
+    
+    def main():
+        dados = Receita.banco_dados()
+        print(dados)
+    
+        while True:
+            print('\n==MENU==')
+            print('1. Adicionar receitas ')
+            print('2. Visualizar receitas ')
+            print('3. ')
+            print('4. ')
+            print('5. ')
+            print('6. ')
+            print('8. ')
+            print('9. Sair')
+            
+            opcao=int(input('Digite a operaçao desejada: '))
+            
+            if opcao == 1:
+                Receita.add()
+            if opcao == 2:
+                Receita.banco_dados() 
+            if opcao == 3:
+            
+            if opcao == 4:
+            
+            if opcao == 5:
+            
+            if opcao == 6:
+            
+            if opcao == 7:
+            
+            if opcao == 8:
+                
+            if opcao == 9:
+                print('Programa finalizado')
+                break
         
         
 
