@@ -154,7 +154,17 @@ class Receita:
                 print('Receita editada com sucesso!')
         except ValueError:
             print('Erro ao editar receita')
-            return            
+            return   
+    def filtrar_por_pais(self, pais):
+        
+        receitas_filtradas = []
+        for receita in self.banco_dados():
+            if receita.pais == pais:
+                receitas_filtradas.append(receita)
+        return receitas_filtradas
+
+    
+                 
 
     def main():
         dados = Receita.banco_dados()
@@ -167,7 +177,8 @@ class Receita:
             print('3. Excluir receitas ')
             print('4. Favoritar receitas ')
             print('5. Editar receita')
-            print('6. ')
+            print('6. Filtrar por paises')
+            print('7  ')
             print('8. ')
             print('9. Sair')
             
@@ -184,7 +195,7 @@ class Receita:
             if opcao == 5:
                 Receita.editar()
             if opcao == 6:
-            
+                Receita.filtrar_por_pais()
             if opcao == 7:
             
             if opcao == 8:
