@@ -126,7 +126,36 @@ class Receita:
                 print('Receita não encontrada, digite novamente!')
             except IndexError:
                 print('Receita não encontrada, digite novamente!')
-    
+
+    def editar(self):
+        receitas = Receita.banco_dados()
+        if not receitas:
+            print('Não há receitas cadastradas')
+            return
+        for i,receita in enumerate(receitas,start=1):
+            print(f'{i}. {receita.nome}')
+        try:
+            editar = int(input('Digite o número da receita que deseja editar: '))
+            if editar > len(receitas):
+                print('Receita não encontrada')
+                return
+            if 0 < editar < len(receitas):
+                receitas_editadas = receitas.pop(editar-1)
+                nome = input('Novo nome da receita: ')
+                pais = input('Novo país de origem da receita: ')
+                ingredientes = input("Novos ingredientes: ")
+                modo_preparo = input("Novo modo de preparo: ")
+                receitas_editadas.nome = nome
+                receitas_editadas.pais = pais
+                receitas_editadas.ingredientes = ingredientes
+                receitas_editadas.preparo = modo_preparo
+                receitas.append(receitas_editadas)
+                Receita.salvar_receita(receitas)
+                print('Receita editada com sucesso!')
+        except ValueError:
+            print('Erro ao editar receita')
+            return            
+
     def main():
         dados = Receita.banco_dados()
         print(dados)
