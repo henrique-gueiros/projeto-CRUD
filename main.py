@@ -166,7 +166,7 @@ class Receita:
             print('2. Visualizar receitas ')
             print('3. Excluir receitas ')
             print('4. Favoritar receitas ')
-            print('5. ')
+            print('5. Editar receita')
             print('6. ')
             print('8. ')
             print('9. Sair')
@@ -182,7 +182,7 @@ class Receita:
             if opcao == 4:
                 Receita.vizualizar()
             if opcao == 5:
-            
+                Receita.editar()
             if opcao == 6:
             
             if opcao == 7:
