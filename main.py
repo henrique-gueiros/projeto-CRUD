@@ -90,31 +90,28 @@ def favoritar():
 
             for p,v in enumerate (filetxt):
                 print(f'{p}. {v}')
-            return
                 
     except FileNotFoundError:
         print('O arquivo que você deseja favoritar não foi encontrado!')
 
     while True:    
         try:
-            with open('receitas.txt', 'a', newline='', encoding='utf8'):
-                favoritar = int(input('Digite a receita que você deseja favoritar: '))
+            with open('favoritos.txt', 'a', newline='', encoding='utf8'):
+                favoritar = (input('Digite a receita que você deseja favoritar: '))
 
-                for i in filetxt:
-                    if i == favoritar:
-                        file=open('favoritos.txt','a',encoding='utf8')
-                        file.write(favoritar)
-                        file.close()
+                
+                file=open('favoritos.txt','a',encoding='utf8')
+                file.write(favoritar)
+                file.close()
                         #adc em um vetor ou arquivo csv/txt? provavelmente precisa ser um write/writerow
-                        novo = input('Deseja adicionar outra receita as favoritas? [S]-Sim//[N]-Não:')
-                        if novo == 'N':
-                            print('Receitas adicionadas!')
-                            break
-                                 
+            return            
+                                               
         except FileNotFoundError:
             print(' não encontrada, digite novamente!')
+            return
         except IndexError:
             print(' não encontrada, digite novamente!')
+            return
 
 def editar():
     receitas = banco_dados()
