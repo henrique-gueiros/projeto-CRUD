@@ -113,6 +113,9 @@ class Receita:
 
                         for i in leitor:
                             if i == favoritar:
+                                file=open('favoritos.txt','a')
+                                file.write(favoritar)
+                                file.close()
                                 #adc em um vetor ou arquivo csv/txt? provavelmente precisa ser um write/writerow
                                 novo = input('Deseja adicionar outra receita as favoritas? [S]-Sim//[N]-Não:')
                                 if novo == 'N':
@@ -133,7 +136,7 @@ class Receita:
             print('1. Adicionar receitas ')
             print('2. Visualizar receitas ')
             print('3. Excluir receitas ')
-            print('4. ')
+            print('4. Favoritar receitas ')
             print('5. ')
             print('6. ')
             print('8. ')
