@@ -1,6 +1,7 @@
 import os
 os.system('cls') 
 import csv
+import random
  #manos, a gente vai usar esse csv depois e vai colocar pra limpar o terminal depois tambem pra poder organizar melhor os "os" que a gente importar aqui
  #esse def dos componentes a gente vai usar pra armazenar os dados de país nome da receita e etc
 
@@ -162,6 +163,14 @@ class Receita:
             if receita.pais == pais:
                 receitas_filtradas.append(receita)
         return receitas_filtradas
+    
+    def sugestao_aleatoria():
+        receitas = Receita.banco_dados()
+        if not receitas:
+            return "Não há receitas cadastradas"
+        random_receita = random.choice(receitas)
+        return f"Receita sugerida: {random_receita.nome} (de {random_receita.pais})"
+
 
     
                  
@@ -178,7 +187,7 @@ class Receita:
             print('4. Favoritar receitas ')
             print('5. Editar receita')
             print('6. Filtrar por paises')
-            print('7  ')
+            print('7 Sugerir receita aleatoria ')
             print('8. ')
             print('9. Sair')
             
@@ -197,7 +206,7 @@ class Receita:
             if opcao == 6:
                 Receita.filtrar_por_pais()
             if opcao == 7:
-            
+                Receita.sugestao_aleatoria()
             if opcao == 8:
                 
             if opcao == 9:
