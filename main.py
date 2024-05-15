@@ -64,26 +64,25 @@ def salvar_receita(receitas):
 def excluir():
             
     receitas = banco_dados()
-            
+
     if not receitas:
         print('Não há receitas cadastradas')
         return
-    for i,receitas in enumerate(receitas,start=1):
-        print(f'{i}. {receitas[0]}')
-            
-    try:
-        excluir = int(input('Digite o número da receita que deseja excluir: '))
-        if excluir > len(receitas):
-            print(' não encontrada')
-            return
 
-        if 0 < excluir < len(receitas):
-            receitas.pop(excluir)
-            print(' excluida')
-            banco_dados()
-            
-    except ValueError:
-        print('Erro ao excluir receita')
+    for receita in receitas:
+        print(receita[receita])
+
+    try:
+        nome_receita = input('Digite o nome da receita que deseja excluir: ')
+        for receita in receitas:
+            if receita == nome_receita:
+                receitas.remove(receita)
+                print('Receita excluída')
+                banco_dados()
+                return
+        print('Receita não encontrada')
+    except Exception as e:
+        print('Erro ao excluir receita:', str(e))
         return
 
 def vizualizar():
@@ -178,7 +177,9 @@ def sugestao_aleatoria():
                  
 
 def main():
-    print(banco_dados())
+    global dados 
+    dados = banco_dados() 
+     
     
     while True:
         print('\n==MENU==')
@@ -215,10 +216,14 @@ def main():
             print('Programa finalizado')
             break
         
-        
-main()
+if __name__ == '__main__':
+    main()
 
+def excluir_tudo():
+    try:
+        with open('receitas.txt', 'w', encoding='utf8') as file:
+            file.truncate()
+    except FileNotFoundError:
+        print('Arquivo não encontrado')
 
-
-
-
+excluir_tudo()
