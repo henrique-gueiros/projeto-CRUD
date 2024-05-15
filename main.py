@@ -78,7 +78,7 @@ def vizualizar():
         with open('receitas.txt', 'r', newline='', encoding='utf8') as filetxt:
 
             for p,v in enumerate (filetxt):
-                print(f'{p}. {v}')
+                print(f'{p}. {v}', end='')
             return
             
     except FileNotFoundError:
@@ -89,7 +89,7 @@ def favoritar():
         with open('receitas.txt', 'r', newline='', encoding='utf8') as filetxt:
 
             for p,v in enumerate (filetxt):
-                print(f'{p}. {v}')
+                print(f'{p}. {v}', end='')
                 
     except FileNotFoundError:
         print('O arquivo que você deseja favoritar não foi encontrado!')
@@ -177,9 +177,10 @@ def main():
         print('6. Filtrar por paises')
         print('7 Sugerir receita aleatoria ')
         print('8. ')
-        print('9. Sair')
+        print('9. Sair\n')
             
-        opcao=int(input('Digite a operaçao desejada: '))
+        opcao=int(input('Digite a operação desejada: '))
+        print()
             
         if opcao == 1:
             add()
