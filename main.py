@@ -22,42 +22,23 @@ def banco_dados():
     #def p/ adicionar receita no banco de dados == csv
 def add():
     with open('receitas.txt','a', encoding='utf8') as filetxt:
-        while True:
-            try:
+        try:
 
-                nome = input('Nome de receita:')
-                filetxt.write(nome)
-                filetxt.write('\n')
-                pais = input('país de origem da receita: ')
-                filetxt.write(pais)
-                filetxt.write('\n')
-                ingredientes = input("Ingredientes: ")
-                filetxt.write(ingredientes)
-                filetxt.write('\n')
-                modo_preparo = input("Modo de preparo: ")
-                filetxt.write(modo_preparo)
-                filetxt.write('\n')
+            nome = input('Nome de receita:')
+            filetxt.write(nome)
+            filetxt.write('\n')
+            pais = input('país de origem da receita: ')
+            filetxt.write(pais)
+            filetxt.write('\n')
+            ingredientes = input("Ingredientes: ")
+            filetxt.write(ingredientes)
+            filetxt.write('\n')
+            modo_preparo = input("Modo de preparo: ")
+            filetxt.write(modo_preparo)
+            filetxt.write('\n')
                 
-                favorito = input("Você quer adicionar essa receita aos Favoritos? (s/n): ") 
-                if favorito == 's':
-                    file=open('favoritos.txt','a',encoding='utf8')
-                    file.write(nome)
-                    file.write('\n')
-                    file.write(pais)
-                    file.write('\n')
-                    file.write(ingredientes)
-                    file.write('\n')
-                    file.write(modo_preparo)
-                    file.write('\n')
-                    file.write('\n')
-                    file.close()
-                else:
-                    
-
-
-                    break
-            except ValueError:
-                print('Erro ao adicionar receita')
+        except ValueError:
+            print('Erro ao adicionar receita')
                     
     
 def salvar_receita(receitas):
