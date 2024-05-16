@@ -42,9 +42,13 @@ def add():
                 if favorito == 's':
                     file=open('favoritos.txt','a',encoding='utf8')
                     file.write(nome)
+                    file.write('\n')
                     file.write(pais)
+                    file.write('\n')
                     file.write(ingredientes)
+                    file.write('\n')
                     file.write(modo_preparo)
+                    file.write('\n')
                     file.write('\n')
                     file.close()
                 else:
@@ -172,9 +176,19 @@ def sugestao_aleatoria():
     random_receita = random.choice(receitas)
     return f" sugerida: {random_receita.nome} (de {random_receita.pais})"
 
+def filtrar_por_ingredientes():
+    ingredientes = input("Digite os ingredientes que deseja filtrar (separados por vírgula): ").split(', ')
+    receitas_filtradas = []
+    for receita in banco_dados():
+        if all(ingrediente in receita[2] for ingrediente in ingredientes):
+            receitas_filtradas.append(receita)
+    if not receitas_filtradas:
+        print("Não há receitas cadastradas com esses ingredientes.")
+    else:
+        for i, receita in enumerate(receitas_filtradas, start=1):
+            print(f"{i}. {receita[0]} (de {receita[1]})")
 
-    
-                 
+
 
 def main():
     global dados 
@@ -190,7 +204,7 @@ def main():
         print('5. Editar receita')
         print('6. Filtrar por paises')
         print('7 Sugerir receita aleatoria ')
-        print('8. ')
+        print('8. Filtrar por ingredientes')
         print('9. Sair\n')
             
         opcao=int(input('Digite a operação desejada: '))
@@ -211,7 +225,7 @@ def main():
         if opcao == 7:
             sugestao_aleatoria()
         if opcao == 8:
-            add()
+            filtrar_por_ingredientes()
         if opcao == 9:
             print('Programa finalizado')
             break
