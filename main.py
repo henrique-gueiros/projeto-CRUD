@@ -23,19 +23,13 @@ def banco_dados():
 def add():
     with open('receitas.txt','a', encoding='utf8') as filetxt:
         try:
-
             nome = input('Nome de receita:')
-            filetxt.write(nome)
-            filetxt.write('\n')
             pais = input('país de origem da receita: ')
-            filetxt.write(pais)
-            filetxt.write('\n')
-            ingredientes = input("Ingredientes: ")
-            filetxt.write(ingredientes)
-            filetxt.write('\n')
+            ingredientes = input("Ingredientes: ").split(',')
             modo_preparo = input("Modo de preparo: ")
-            filetxt.write(modo_preparo)
-            filetxt.write('\n')
+
+            filetxt.write(f"{nome}|{pais}|{','.join(ingredientes)}|{modo_preparo}\n")
+        
                 
         except ValueError:
             print('Erro ao adicionar receita')
