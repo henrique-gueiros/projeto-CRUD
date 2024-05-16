@@ -6,7 +6,7 @@ import random
 
 def banco_dados():
     try:
-        with open('receitas.txt', 'r', newline='', encoding='utf8') as filetxt:
+        with open('receitas.txt', 'r',  encoding='utf8') as filetxt:
             
             dados=[]
             for i in filetxt:
@@ -21,7 +21,7 @@ def banco_dados():
 
     #def p/ adicionar receita no banco de dados == csv
 def add():
-    with open('receitas.txt','a',newline='', encoding='utf8') as filetxt:
+    with open('receitas.txt','a', encoding='utf8') as filetxt:
         while True:
             try:
 
@@ -91,7 +91,7 @@ def excluir():
 
 def vizualizar():
     try:
-        with open('receitas.txt', 'r', newline='', encoding='utf8') as filetxt:
+        with open('receitas.txt', 'r',  encoding='utf8') as filetxt:
 
             for p,v in enumerate (filetxt):
                 print(f'{p}. {v}', end='')
@@ -102,7 +102,7 @@ def vizualizar():
 
 def favoritar():
     try:
-        with open('receitas.txt', 'r', newline='', encoding='utf8') as filetxt:
+        with open('receitas.txt', 'r',  encoding='utf8') as filetxt:
 
             for p,v in enumerate (filetxt):
                 print(f'{p}. {v}', end='')
@@ -112,7 +112,7 @@ def favoritar():
 
     while True:    
         try:
-            with open('favoritos.txt', 'a', newline='', encoding='utf8'):
+            with open('favoritos.txt', 'a',  encoding='utf8'):
                 favoritar = (input('Digite a receita que você deseja favoritar: '))
 
                 
