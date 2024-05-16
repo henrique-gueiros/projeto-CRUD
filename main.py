@@ -32,14 +32,8 @@ def add():
         
                 
         except ValueError:
-            print('Erro ao adicionar receita')
-                    
-    
-def salvar_receita(receitas):
-    with open('receitas.txt','w',newline='') as filetxt:
-        return
-    
-    
+            print('Erro ao adicionar receita (valor digitado em algum campo é inválido).')
+                       
 def excluir():
             
     receitas = banco_dados()
