@@ -25,45 +25,46 @@ def add():
         try:
             nome = input('Nome de receita:')
             pais = input('país de origem da receita: ')
-            ingredientes = input("Ingredientes: ").split(',')
+            ingredientes = input("Ingredientes(digitar cada um separado do outro por espaço): ").split()
             modo_preparo = input("Modo de preparo: ")
 
-            filetxt.write(f"{nome}|{pais}|{','.join(ingredientes)}|{modo_preparo}\n")
+            filetxt.write(f"{nome}|{pais}|{', '.join(ingredientes)}|{modo_preparo}\n")
         
                 
         except ValueError:
             print('Erro ao adicionar receita (valor digitado em algum campo é inválido).')
                        
 def excluir():
-            
-    receitas = banco_dados()
-
-    if not receitas:
-        print('Não há receitas cadastradas')
-        return
-
-    for receita in receitas:
-        print(receita[receita])
-
     try:
-        nome_receita = input('Digite o nome da receita que deseja excluir: ')
-        for receita in receitas:
-            if receita == nome_receita:
-                receitas.remove(receita)
-                print('Receita excluída')
-                banco_dados()
-                return
-        print('Receita não encontrada')
-    except Exception as e:
-        print('Erro ao excluir receita:', str(e))
-        return
+        with open('receitas.txt', 'r',  encoding='utf8') as filetxt:
+            print('receitas disponíveis para excluir: ')
+
+            for p,v in enumerate (filetxt):
+                print(f'Receita {p}: {v}', end='')
+            
+            receitas = filetxt.readlines()
+
+        with open('receitas.txt', 'a', encoding='utf8') as filetxt:
+            receita_excluida = (input('Digite a receita que você deseja excluir: '))
+            for linha in receitas:
+                if receita_excluida in linha:
+                    linha = linha.replace(linha, '')
+                filetxt.write(linha)
+        print("Receita removida\n")
+
+    except FileNotFoundError:
+        print('Não há receitas disponíveis')
+    except ValueError:
+        print('Erro ao excluir receita (número digitado é inválido).')
+
+
 
 def vizualizar():
     try:
         with open('receitas.txt', 'r',  encoding='utf8') as filetxt:
 
             for p,v in enumerate (filetxt):
-                print(f'{p}. {v}', end='')
+                print(f'Receita {p}: {v}', end='')
             return
             
     except FileNotFoundError:
