@@ -36,27 +36,31 @@ def add():
                        
 def excluir():
     try:
-        with open('receitas.txt', 'r',  encoding='utf8') as filetxt:
-            print('receitas disponíveis para excluir: ')
-
+        with open('receitas.txt', 'r', encoding='utf8') as filetxt:
+            print('Receitas disponíveis para excluir:')
             for p,v in enumerate (filetxt):
-                print(f'Receita {p}: {v}', end='')
-            
+                t = p+1
+                print(f'Receita {t}: {v}', end='')
+
+
+        with open('receitas.txt', 'r',  encoding='utf8') as filetxt:
             receitas = filetxt.readlines()
 
-        with open('receitas.txt', 'a', encoding='utf8') as filetxt:
-            receita_excluida = (input('Digite a receita que você deseja excluir: '))
-            for linha in receitas:
-                if receita_excluida in linha:
-                    linha = linha.replace(linha, '')
-                filetxt.write(linha)
+        try:
+            receita_excluida = int(input('Digite o número da receita que deseja excluir: '))
+            if 1 <= receita_excluida <= len(receitas):
+                del receitas[receita_excluida - 1]
+            else:
+                print('Número inválido')
+        except ValueError:
+            print('Número inválido')
+
+        with open('receitas.txt', 'w', encoding='utf8') as filetxt:
+            filetxt.writelines(receitas)
         print("Receita removida\n")
 
     except FileNotFoundError:
         print('Não há receitas disponíveis')
-    except ValueError:
-        print('Erro ao excluir receita (número digitado é inválido).')
-
 
 
 def vizualizar():
@@ -64,7 +68,8 @@ def vizualizar():
         with open('receitas.txt', 'r',  encoding='utf8') as filetxt:
 
             for p,v in enumerate (filetxt):
-                print(f'Receita {p}: {v}', end='')
+                t = p+1
+                print(f'Receita {t}: {v}', end='')
             return
             
     except FileNotFoundError:
@@ -122,7 +127,7 @@ def editar():
             receitas_editadas.ingredientes = ingredientes
             receitas_editadas.preparo = modo_preparo
             receitas.append(receitas_editadas)
-            salvar_receita(receitas)
+            
             print(' editada com sucesso!')
     except ValueError:
         print('Erro ao editar receita')
@@ -163,7 +168,10 @@ def filtrar_por_ingredientes():
 def main():
     global dados 
     dados = banco_dados() 
-     
+
+    with open('receitas.txt', 'a', encoding='utf8') as filetxt:
+        filetxt.write("Paella|Espanha|camarão, arroz|fogo alto\n")
+        filetxt.write("Hambúrguer Americano|Estados Unidas|pão, carne, queijo|pão na chapa e carne com queijo derretido\n")     
     
     while True:
         print('\n==MENU==')
