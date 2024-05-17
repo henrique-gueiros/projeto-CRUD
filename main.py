@@ -34,6 +34,20 @@ def add():
         except ValueError:
             print('Erro ao adicionar receita (valor digitado em algum campo é inválido).')
                        
+
+def vizualizar():
+    try:
+        with open('receitas.txt', 'r',  encoding='utf8') as filetxt:
+
+            for p,v in enumerate (filetxt):
+                t = p+1
+                print(f'Receita {t}: {v}', end='')
+            return
+            
+    except FileNotFoundError:
+        print('O arquivo que você deseja vizualizar não foi encontrado!')
+
+
 def excluir():
     try:
         with open('receitas.txt', 'r', encoding='utf8') as filetxt:
@@ -62,18 +76,6 @@ def excluir():
     except FileNotFoundError:
         print('Não há receitas disponíveis')
 
-
-def vizualizar():
-    try:
-        with open('receitas.txt', 'r',  encoding='utf8') as filetxt:
-
-            for p,v in enumerate (filetxt):
-                t = p+1
-                print(f'Receita {t}: {v}', end='')
-            return
-            
-    except FileNotFoundError:
-        print('O arquivo que você deseja vizualizar não foi encontrado!')
 
 def favoritar():
     try:
