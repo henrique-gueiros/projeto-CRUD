@@ -1,50 +1,58 @@
 import os
-os.system('cls') 
 import random
- #manos, a gente vai usar esse csv depois e vai colocar pra limpar o terminal depois tambem pra poder organizar melhor os "os" que a gente importar aqui
- #esse def dos componentes a gente vai usar pra armazenar os dados de país nome da receita e etc
+
+os.system('cls')
 
 def banco_dados():
     try:
-        with open('receitas.txt', 'r',  encoding='utf8') as filetxt:
-            
-            dados=[]
-            for i in filetxt:
-                nome, pais, ingredientes, preparo, favorito = i
-                ingredientes = ingredientes.split(', ') #separei os ingredientes por vírgula pra ficar mais fácil
-                favorito = favorito == "True"
-                receita = (nome, pais, ingredientes, preparo, favorito)
-                dados.append(receita)
+        with open('receitas.txt', 'r', encoding='utf8') as filetxt:
+            dados = []
+            for linha in filetxt:
+                partes = linha.strip().split('|')
+                if len(partes) == 4:
+                    nome, pais, ingredientes, preparo = partes
+                    ingredientes = ingredientes.split(', ')
+                    receita = {'nome': nome, 'pais': pais, 'ingredientes': ingredientes, 'preparo': preparo}
+                    dados.append(receita)
             return dados
     except FileNotFoundError:
-        return dados
+        return []
 
-    #def p/ adicionar receita no banco de dados == csv
+def inicializa_arquivo():
+    if not os.path.exists('receitas.txt'):
+        with open('receitas.txt', 'w', encoding='utf8') as filetxt:
+            filetxt.write("Paella|Espanha|camarão, arroz, ervilhas|Fogo alto\n")
+            filetxt.write("Hambúrguer|Estados Unidos|pão, carne, queijo|Na brasa\n")
+            
 def add():
-    with open('receitas.txt','a', encoding='utf8') as filetxt:
+    with open('receitas.txt', 'a', encoding='utf8') as filetxt:
         try:
-            nome = input('Nome de receita:')
-            pais = input('país de origem da receita: ')
-            ingredientes = input("Ingredientes(digitar cada um separado do outro por espaço): ").split()
+            nome = input('Nome da receita: ')
+            pais = input('País de origem da receita: ')
+            ingredientes = input("Ingredientes (digitar cada um separado por vírgula): ").split(', ')
             modo_preparo = input("Modo de preparo: ")
-
             filetxt.write(f"{nome}|{pais}|{', '.join(ingredientes)}|{modo_preparo}\n")
-        
-                
         except ValueError:
             print('Erro ao adicionar receita (valor digitado em algum campo é inválido).')
-                       
+
+def visualizar():
+    try:
+        with open('receitas.txt', 'r', encoding='utf8') as filetxt:
+            for p, v in enumerate(filetxt):
+                t = p + 1
+                print(f'Receita {t}: {v}', end='')
+    except FileNotFoundError:
+        print('O arquivo que você deseja visualizar não foi encontrado!')
+
 def excluir():
     try:
         with open('receitas.txt', 'r', encoding='utf8') as filetxt:
-            print('Receitas disponíveis para excluir:')
-            for p,v in enumerate (filetxt):
-                t = p+1
-                print(f'Receita {t}: {v}', end='')
-
-
-        with open('receitas.txt', 'r',  encoding='utf8') as filetxt:
             receitas = filetxt.readlines()
+
+        print('Receitas disponíveis para excluir:')
+        for p, v in enumerate(receitas):
+            t = p + 1
+            print(f'Receita {t}: {v}', end='')
 
         try:
             receita_excluida = int(input('Digite o número da receita que deseja excluir: '))
@@ -62,152 +70,117 @@ def excluir():
     except FileNotFoundError:
         print('Não há receitas disponíveis')
 
-
-def vizualizar():
-    try:
-        with open('receitas.txt', 'r',  encoding='utf8') as filetxt:
-
-            for p,v in enumerate (filetxt):
-                t = p+1
-                print(f'Receita {t}: {v}', end='')
-            return
-            
-    except FileNotFoundError:
-        print('O arquivo que você deseja vizualizar não foi encontrado!')
-
 def favoritar():
+    nome_receita = input("Digite o nome da receita que deseja adicionar como favorita: ")
     try:
-        with open('receitas.txt', 'r',  encoding='utf8') as filetxt:
-
-            for p,v in enumerate (filetxt):
-                print(f'{p}. {v}', end='')
-                
+        with open('receitas.txt', 'r', encoding='utf8') as filetxt:
+            receitas = filetxt.readlines()
+        with open('receitas.txt', 'w', encoding='utf8') as filetxt:
+            for linha in receitas:
+                if nome_receita in linha and '*' not in linha:
+                    linha = linha.strip() + " *\n"
+                filetxt.write(linha)
+        print("Receita adicionada aos favoritos!\n")
     except FileNotFoundError:
-        print('O arquivo que você deseja favoritar não foi encontrado!')
-
-    while True:    
-        try:
-            with open('favoritos.txt', 'a',  encoding='utf8'):
-                favoritar = (input('Digite a receita que você deseja favoritar: '))
-
-                
-                file=open('favoritos.txt','a',encoding='utf8')
-                file.write(favoritar)
-                file.close()
-                        #adc em um vetor ou arquivo csv/txt? provavelmente precisa ser um write/writerow
-            return            
-                                               
-        except FileNotFoundError:
-            print(' não encontrada, digite novamente!')
-            return
-        except IndexError:
-            print(' não encontrada, digite novamente!')
-            return
+        print("Ainda não há receitas cadastradas.\n")
 
 def editar():
     receitas = banco_dados()
     if not receitas:
         print('Não há receitas cadastradas')
         return
-    for i,receita in enumerate(receitas,start=1):
-        print(f'{i}. {receita.nome}')
+    for i, receita in enumerate(receitas, start=1):
+        print(f'{i}. {receita["nome"]}')
     try:
-        editar = int(input('Digite o número da receita que deseja editar: '))
-        if editar > len(receitas):
-            print(' não encontrada')
+        editando = int(input('Digite o número da receita que deseja editar: '))
+        if editando > len(receitas):
+            print('Receita não encontrada')
             return
-        if 0 < editar < len(receitas):
-            receitas_editadas = receitas.pop(editar-1)
+        if 0 < editando <= len(receitas):
+            receita_editada = receitas[editando - 1]
             nome = input('Novo nome da receita: ')
             pais = input('Novo país de origem da receita: ')
-            ingredientes = input("Novos ingredientes: ")
+            ingredientes = input("Novos ingredientes: ").split(', ')
             modo_preparo = input("Novo modo de preparo: ")
-            receitas_editadas.nome = nome
-            receitas_editadas.pais = pais
-            receitas_editadas.ingredientes = ingredientes
-            receitas_editadas.preparo = modo_preparo
-            receitas.append(receitas_editadas)
-            
-            print(' editada com sucesso!')
+            receita_editada['nome'] = nome
+            receita_editada['pais'] = pais
+            receita_editada['ingredientes'] = ingredientes
+            receita_editada['preparo'] = modo_preparo
+
+            with open('receitas.txt', 'w', encoding='utf8') as filetxt:
+                for receita in receitas:
+                    filetxt.write(f"{receita['nome']}|{receita['pais']}|{', '.join(receita['ingredientes'])}|{receita['preparo']}\n")
+
+            print('Receita editada com sucesso!')
     except ValueError:
         print('Erro ao editar receita')
-        return   
+        return
+
 def filtrar_por_pais():
     pais = input("Digite o país que deseja filtrar: ")
-    receitas_filtradas = []
-    for receita in banco_dados():
-        if receita[1] == pais:
-            receitas_filtradas.append(receita)
+    receitas_filtradas = [receita for receita in banco_dados() if receita['pais'] == pais]
     if not receitas_filtradas:
         print("Não há receitas cadastradas para esse país.")
     else:
         for i, receita in enumerate(receitas_filtradas, start=1):
-            print(f"{i}. {receita[0]} (de {receita[1]})")
-    
+            print(f"{i}. {receita['nome']} (de {receita['pais']})")
+
 def sugestao_aleatoria():
     receitas = banco_dados()
     if not receitas:
         return "Não há receitas cadastradas"
     random_receita = random.choice(receitas)
-    return f" sugerida: {random_receita.nome} (de {random_receita.pais})"
+    return f"Receita sugerida: {random_receita['nome']} (de {random_receita['pais']})"
 
 def filtrar_por_ingredientes():
     ingredientes = input("Digite os ingredientes que deseja filtrar (separados por vírgula): ").split(', ')
-    receitas_filtradas = []
-    for receita in banco_dados():
-        if all(ingrediente in receita[2] for ingrediente in ingredientes):
-            receitas_filtradas.append(receita)
+    receitas_filtradas = [receita for receita in banco_dados() if all(ingrediente in receita['ingredientes'] for ingrediente in ingredientes)]
     if not receitas_filtradas:
         print("Não há receitas cadastradas com esses ingredientes.")
     else:
         for i, receita in enumerate(receitas_filtradas, start=1):
-            print(f"{i}. {receita[0]} (de {receita[1]})")
+            print(f"{i}. {receita['nome']} (de {receita['pais']})")
 
 
 
 def main():
-    global dados 
-    dados = banco_dados() 
+    inicializa_arquivo()
 
-    with open('receitas.txt', 'a', encoding='utf8') as filetxt:
-        filetxt.write("Paella|Espanha|camarão, arroz|fogo alto\n")
-        filetxt.write("Hambúrguer Americano|Estados Unidas|pão, carne, queijo|pão na chapa e carne com queijo derretido\n")     
-    
     while True:
-        print('\n==MENU==')
-        print('1. Adicionar receitas ')
-        print('2. Visualizar receitas ')
-        print('3. Excluir receitas ')
-        print('4. Favoritar receitas ')
+        print('\n== MENU ==')
+        print('1. Adicionar receitas')
+        print('2. Visualizar receitas')
+        print('3. Excluir receitas')
+        print('4. Favoritar receitas')
         print('5. Editar receita')
-        print('6. Filtrar por paises')
-        print('7 Sugerir receita aleatoria ')
+        print('6. Filtrar por países')
+        print('7. Sugerir receita aleatória')
         print('8. Filtrar por ingredientes')
         print('9. Sair\n')
-            
-        opcao=int(input('Digite a operação desejada: '))
+
+        opcao = int(input('Digite a operação desejada: '))
         print()
-            
+
         if opcao == 1:
             add()
-        if opcao == 2:
-            vizualizar()
-        if opcao == 3:
+        elif opcao == 2:
+            visualizar()
+        elif opcao == 3:
             excluir()
-        if opcao == 4:
-            favoritar() 
-        if opcao == 5:
+        elif opcao == 4:
+            favoritar()
+        elif opcao == 5:
             editar()
-        if opcao == 6:
+        elif opcao == 6:
             filtrar_por_pais()
-        if opcao == 7:
-            sugestao_aleatoria()
-        if opcao == 8:
+        elif opcao == 7:
+            print(sugestao_aleatoria())
+        elif opcao == 8:
             filtrar_por_ingredientes()
-        if opcao == 9:
+        elif opcao == 9:
             print('Programa finalizado')
             break
-        
+
 if __name__ == '__main__':
     main()
 
