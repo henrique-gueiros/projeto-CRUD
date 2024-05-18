@@ -19,10 +19,9 @@ def banco_dados():
         return []
 
 def inicializa_arquivo():
-    if not os.path.exists('receitas.txt'):
-        with open('receitas.txt', 'w', encoding='utf8') as filetxt:
-            filetxt.write("Paella|Espanha|camarão, arroz, ervilhas|Fogo alto\n")
-            filetxt.write("Hambúrguer|Estados Unidos|pão, carne, queijo|Na brasa\n")
+    with open('receitas.txt', 'w', encoding='utf8') as filetxt:
+        filetxt.write("Paella|Espanha|Camarão, Arroz, Ervilhas|Fogo alto\n")
+        filetxt.write("Hambúrguer|Estados Unidos|Pão, Carne, Queijo|Na brasa\n")
             
 def add():
     with open('receitas.txt', 'a', encoding='utf8') as filetxt:
@@ -68,7 +67,7 @@ def excluir():
         print("Receita removida\n")
 
     except FileNotFoundError:
-        print('Não há receitas disponíveis')
+        print('Não há receitas disponíveis para excluir.')
 
 def favoritar():
     nome_receita = input("Digite o nome da receita que deseja adicionar como favorita: ")
@@ -113,17 +112,20 @@ def editar():
 
             print('Receita editada com sucesso!')
     except ValueError:
-        print('Erro ao editar receita')
+        print('Erro ao editar receita desejada')
         return
 
 def filtrar_por_pais():
-    pais = input("Digite o país que deseja filtrar: ")
-    receitas_filtradas = [receita for receita in banco_dados() if receita['pais'] == pais]
-    if not receitas_filtradas:
-        print("Não há receitas cadastradas para esse país.")
-    else:
-        for i, receita in enumerate(receitas_filtradas, start=1):
-            print(f"{i}. {receita['nome']} (de {receita['pais']})")
+    try:
+        pais = input("Digite o país que deseja filtrar: ")
+        receitas_filtradas = [receita for receita in banco_dados() if receita['pais'] == pais]
+        if not receitas_filtradas:
+            print("Não há receitas cadastradas para esse país.")
+        else:
+            for i, receita in enumerate(receitas_filtradas, start=1):
+                print(f"{i}. {receita['nome']} (de {receita['pais']})")
+    except ValueError:
+        print("Erro ao filtrar receitas por país, digite um país válido.")
 
 def sugestao_aleatoria():
     receitas = banco_dados()
@@ -144,42 +146,46 @@ def filtrar_por_ingredientes():
 
 
 def main():
-    inicializa_arquivo()
+    try:
+        inicializa_arquivo()
 
-    while True:
-        print('\n== MENU ==')
-        print('1. Adicionar receitas')
-        print('2. Visualizar receitas')
-        print('3. Excluir receitas')
-        print('4. Favoritar receitas')
-        print('5. Editar receita')
-        print('6. Filtrar por países')
-        print('7. Sugerir receita aleatória')
-        print('8. Filtrar por ingredientes')
-        print('9. Sair\n')
+        while True:
+            print('\n== MENU ==')
+            print('1. Adicionar receitas')
+            print('2. Visualizar receitas')
+            print('3. Excluir receitas')
+            print('4. Favoritar receitas')
+            print('5. Editar receita')
+            print('6. Filtrar por países')
+            print('7. Sugerir receita aleatória')
+            print('8. Filtrar por ingredientes')
+            print('9. Sair\n')
 
-        opcao = int(input('Digite a operação desejada: '))
-        print()
+            opcao = int(input('Digite a operação desejada: '))
+            print()
 
-        if opcao == 1:
-            add()
-        elif opcao == 2:
-            visualizar()
-        elif opcao == 3:
-            excluir()
-        elif opcao == 4:
-            favoritar()
-        elif opcao == 5:
-            editar()
-        elif opcao == 6:
-            filtrar_por_pais()
-        elif opcao == 7:
-            print(sugestao_aleatoria())
-        elif opcao == 8:
-            filtrar_por_ingredientes()
-        elif opcao == 9:
-            print('Programa finalizado')
-            break
+            if opcao == 1:
+                add()
+            elif opcao == 2:
+                visualizar()
+            elif opcao == 3:
+                excluir()
+            elif opcao == 4:
+                favoritar()
+            elif opcao == 5:
+                editar()
+            elif opcao == 6:
+                filtrar_por_pais()
+            elif opcao == 7:
+                print(sugestao_aleatoria())
+            elif opcao == 8:
+                filtrar_por_ingredientes()
+            elif opcao == 9:
+                print('Programa finalizado')
+                break
+    
+    except ValueError:
+        print('Opção inválida. Tente novamente(escolha uma opção de 1 a 9).')
 
 if __name__ == '__main__':
     main()
