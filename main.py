@@ -47,7 +47,9 @@ def excluir():
     try:
         with open('receitas.txt', 'r', encoding='utf8') as filetxt:
             receitas = filetxt.readlines()
-
+        if not receitas:
+            print("Sem receitas disponíveis para excluir")
+            return
         print('Receitas disponíveis para excluir:')
         for p, v in enumerate(receitas):
             t = p + 1
@@ -70,10 +72,16 @@ def excluir():
         print('Não há receitas disponíveis para excluir.')
 
 def favoritar():
-    nome_receita = input("Digite o nome da receita que deseja adicionar como favorita: ")
+   
     try:
         with open('receitas.txt', 'r', encoding='utf8') as filetxt:
             receitas = filetxt.readlines()
+        if not receitas:
+            print("Sem receitas disponíveis para favoritar")
+            return
+
+        nome_receita = input("Digite o nome da receita que deseja adicionar como favorita: ")
+
         with open('receitas.txt', 'w', encoding='utf8') as filetxt:
             for linha in receitas:
                 if nome_receita in linha and '*' not in linha:
