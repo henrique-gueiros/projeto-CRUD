@@ -37,9 +37,14 @@ def add():
 def visualizar():
     try:
         with open('receitas.txt', 'r', encoding='utf8') as filetxt:
-            for p, v in enumerate(filetxt):
+            receitas = filetxt.readlines()
+            if not receitas:
+                print("Não há receitas para vizualizar")
+            for p, v in enumerate(receitas):
                 t = p + 1
                 print(f'Receita {t}: {v}', end='')
+           
+            
     except FileNotFoundError:
         print('O arquivo que você deseja visualizar não foi encontrado!')
 
