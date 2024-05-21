@@ -1,9 +1,11 @@
 # projeto-CRUD
 
-<img src=""> 
+<img src="/foto do fluxograma.jpg"> 
+<a href = "https://drive.google.com/file/d/1GU8ekzrb13fwHUCZTQJV2l4HZDCeMwZt/view?usp=sharing"> 
+link para vizualizar a foto acima
 
+Manual do usuário
 
-Uso
 Adicionar Receitas
 Para adicionar uma receita:
 
