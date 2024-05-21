@@ -148,6 +148,10 @@ def sugestao_aleatoria():
     return f"Receita sugerida: {random_receita['nome']} (de {random_receita['pais']})"
 
 def filtrar_por_ingredientes():
+    receitas = banco_dados()
+    if not receitas:
+        print("Não há receitas cadastradas")
+        return
     ingredientes = input("Digite os ingredientes que deseja filtrar (separados por vírgula): ").split(', ')
     receitas_filtradas = [receita for receita in banco_dados() if all(ingrediente in receita['ingredientes'] for ingrediente in ingredientes)]
     if not receitas_filtradas:
